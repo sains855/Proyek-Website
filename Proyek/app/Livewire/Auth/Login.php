@@ -3,6 +3,7 @@
 namespace App\Livewire\Auth;
 
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 
 class Login extends Component
 {
@@ -12,11 +13,18 @@ class Login extends Component
         return view('livewire.auth.login')->extends('layouts.app')->section('content');
     }
 
+    public function rules(){
+        return[
+                'email'=>['required','email'],
+                'password'=>['required'],
+        ];
+    }
     public function loginuser(){
-        $this->validate([
-            'email'=>'required','email','unique:users',
-            'password'=>'required','confirmed',
-            ]);
-
+        $this->validate();
+        if(!Auth::attempt($this->only(['email','password']))){
+            $this->addError('email',__('auth.failed'));
+            return null;
+        }
+        return redirect()->to('/home');
     }
 }
