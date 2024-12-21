@@ -5,8 +5,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/home', function () {
+    return view('home');
 });
 
 Auth::routes(['login'=> false, 'register'=> false]);
